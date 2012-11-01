@@ -16,7 +16,9 @@ describe Game do
     end
 
     it "receives a column number when asking a specific player to pick" do
-      game.insertion_target_column.should be_between(1,7)
+      column_pick = rand(1..7)
+      game.red_player.stub!(:pick).and_return(column_pick)
+      game.insertion_target_column.should eq(column_pick)
     end
 
   end

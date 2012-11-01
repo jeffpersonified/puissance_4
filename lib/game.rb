@@ -1,5 +1,3 @@
-require_relative './player'
-
 class Game
   attr_reader :red_player, :blue_player, :board
 
@@ -26,8 +24,8 @@ class Game
     @board.is_full?
   end
 
-  def place_piece(player_id, column)
-    @board.place_piece(player_id, column)
+  def place_piece(player_id, insertion_target_column)
+    @board.place_piece(player_id, insertion_target_column)
   end
 
 end
