@@ -1,4 +1,4 @@
-require './lib/column_full_error.rb'
+require './column_full_error.rb'
 
 class Board
   attr_reader :cells
@@ -22,6 +22,13 @@ class Board
       puts
     end
   end
+
+  # when a player places a piece in column x
+  # we compute y buy looking at the index of the first empty cell - 1
+  # we get the coordinates (x,y)
+  # we check 4 groups : the column(x), the row(y) and the 2 diagonals linked to the (x,y) piece
+  # we run #connect_four on them
+  # if we have at least one "true", we return "true" to the Game object
 
   private
     def column num

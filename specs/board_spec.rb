@@ -41,8 +41,17 @@ describe Board do
     end
   end
 
-  describe "#connect_four" do
+  describe "#connect_four?" do
     context "checking the rows" do
+      let(:winning_board_horizontal){
+        [ ["","","","","",""],
+          [1 ,"","","","",""],
+          [1 ,"","","","",""],
+          [1 ,"","","","",""],
+          [1 ,"","","","",""],
+          ["","","","","",""],
+          ["","","","","",""] ]
+      }
       it "returns true if a row contains four consecutive pieces" do
         pending
       end
@@ -51,6 +60,15 @@ describe Board do
       end
     end
     context "checking the columns" do
+      let(:winning_board_vertical){
+        [ ["","","","","",""],
+          [1 ,1 ,1 ,1 ,"",""],
+          ["","","","","",""],
+          ["","","","","",""],
+          ["","","","","",""],
+          ["","","","","",""],
+          ["","","","","",""] ]
+      }
       it "returns true if a column contains four consecutive pieces" do
         pending
       end
@@ -59,6 +77,15 @@ describe Board do
       end
     end
     context "checking the diagonal" do
+      let(:winning_board_diagonal){
+        [ ["","","","","",""],
+          [1 ,"","","","",""],
+          ["",1 ,"","","",""],
+          ["","",1 ,"","",""],
+          ["","","",1 ,"",""],
+          ["","","","","",""],
+          ["","","","","",""] ]
+      }
       it "returns true if a diagonal contains four consecutive pieces" do
         pending
       end
