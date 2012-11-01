@@ -18,7 +18,7 @@ describe Game do
     it "receives a column number when asking a specific player to pick" do
       column_pick = rand(1..7)
       game.red_player.stub!(:pick).and_return(column_pick)
-      game.insertion_target_column.should eq(column_pick)
+      game.target_column.should eq(column_pick)
     end
 
   end

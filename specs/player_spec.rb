@@ -17,8 +17,13 @@ describe Player do
 
   context "#pick" do
 
-    it "gets a number between 1 and 7 from the human" do
-      player.pick.should be_between(1,7)
+    it "receives a board and returns an integer between 1 and 7 from the human" do
+      player.pick('board').should be_between(1,7)
+    end
+
+    it "stores a board received from game" do
+      player.pick("board")
+      player.current_board.should eq("board")
     end
 
   end

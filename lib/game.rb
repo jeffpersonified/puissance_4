@@ -8,8 +8,8 @@ class Game
     @board = Board.new
   end
 
-  def insertion_target_column
-    current_player.pick
+  def target_column
+    current_player.pick(@board)
   end
 
   def current_player
@@ -24,8 +24,8 @@ class Game
     @board.is_full?
   end
 
-  def place_piece(player_id, insertion_target_column)
-    @board.place_piece(player_id, insertion_target_column)
+  def place_piece(player_id, target_column)
+    @board.place_piece(player_id, target_column)
   end
 
 end
