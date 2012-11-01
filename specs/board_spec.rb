@@ -5,9 +5,10 @@ require './lib/board.rb'
 describe Board do
   let(:board){ Board.new }
 
-  describe "#place" do
+  describe "#place_piece" do
     context "when somebody has played on an empty board" do
       it "changes the string output" do
+        board.place_piece(1, 2)
         board_after = [ ["","","","","",""],
                         [1 ,"","","","",""],
                         ["","","","","",""],
@@ -15,13 +16,13 @@ describe Board do
                         ["","","","","",""],
                         ["","","","","",""],
                         ["","","","","",""] ]
-        board.place(1, 2)
         board.cells.should eq board_after
       end
     end
 
     context "when somebody has played" do
       it "changes the string output" do
+        3.times { board.place_piece(1, 2) }
         board_after = [ ["","","","","",""],
                         [1 ,1 ,1 ,"","",""],
                         ["","","","","",""],
@@ -29,19 +30,44 @@ describe Board do
                         ["","","","","",""],
                         ["","","","","",""],
                         ["","","","","",""] ]
-        board.place(1, 2)
-        board.place(1, 2)
-        board.place(1, 2)
         board.cells.should eq board_after
       end
     end
     context "when somebody has played on a full column" do
       it "changes the string output" do
-        6.times { board.place(1, 2) }
-        expect { board.place(1, 2) }.to raise_error(ColumnFullError)
+        6.times { board.place_piece(1, 2) }
+        expect { board.place_piece(1, 2) }.to raise_error(ColumnFullError)
       end
     end
   end
+
+  describe "#connect_four" do
+    context "checking the rows" do
+      it "returns true if a row contains four consecutive pieces" do
+        pending
+      end
+      it "returns false if no row contains four consecutive pieces" do
+        pending
+      end
+    end
+    context "checking the columns" do
+      it "returns true if a column contains four consecutive pieces" do
+        pending
+      end
+      it "returns false if no column contains four consecutive pieces" do
+        pending
+      end
+    end
+    context "checking the diagonal" do
+      it "returns true if a diagonal contains four consecutive pieces" do
+        pending
+      end
+      it "returns false if no diagonal contains four consecutive pieces" do
+        pending
+      end
+    end
+  end
+
 
   # context "#connect_four?" do
   #     context "when there isn't a connect four" do
