@@ -20,10 +20,6 @@ class Game
     @board.winning_combo?
   end
 
-  def is_full?
-    @board.is_full?
-  end
-
   def place_piece(player_id, target_column)
     @board.place_piece(player_id, target_column)
   end

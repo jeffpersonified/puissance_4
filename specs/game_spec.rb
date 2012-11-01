@@ -43,21 +43,6 @@ describe Game do
 
     end
 
-
-    context "#is_full" do
-
-      it "knows when the board is full" do
-        game.board.stub!(:is_full?).and_return(true)
-        game.is_full?.should be_true
-      end
-
-      it "knows when the board is not full" do
-        game.board.stub!(:is_full?).and_return(false)
-        game.is_full?.should be_false
-      end
-
-    end
-
     context "#place_piece" do
 
       it "places a piece if there is space available in the column" do
