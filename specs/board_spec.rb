@@ -42,56 +42,51 @@ describe Board do
     end
   end
 
-  describe "#connect_four?" do
+  describe "#winning_combo?" do
+    let(:board){ Board.new }
+
     context "checking the rows" do
-      let(:winning_board_horizontal){
-        [ ["","","","","",""],
-          [1 ,"","","","",""],
-          [1 ,"","","","",""],
-          [1 ,"","","","",""],
-          [1 ,"","","","",""],
-          ["","","","","",""],
-          ["","","","","",""] ]
-      }
       it "returns true if a row contains four consecutive pieces" do
-        winning_board_horizontal.connect_four?.should be_true
+        board.place_piece(1,2)
+        board.place_piece(1,3)
+        board.place_piece(1,4)
+        board.place_piece(1,5)
+        board.winning_combo?.should be_true
       end
+
       it "returns false if no row contains four consecutive pieces" do
-        winning_board_horizontal.connect_four?.should be_false
+        board.place_piece(1,2)
+        board.winning_combo?.should be_false
       end
     end
     context "checking the columns" do
-      let(:winning_board_vertical){
-        [ ["","","","","",""],
-          [1 ,1 ,1 ,1 ,"",""],
-          ["","","","","",""],
-          ["","","","","",""],
-          ["","","","","",""],
-          ["","","","","",""],
-          ["","","","","",""] ]
-      }
       it "returns true if a column contains four consecutive pieces" do
-        winning_board_vertical.connect_four?.should be_true
+        board.place_piece(1,1)
+        board.place_piece(1,1)
+        board.place_piece(1,1)
+        board.place_piece(1,1)
+        board.winning_combo?.should be_true
       end
       it "returns false if no column contains four consecutive pieces" do
-        winning_board_vertical.connect_four?.should be_false
+        board.place_piece(1,1)
+        board.winning_combo?.should be_false
       end
     end
     context "checking the diagonal" do
-      let(:winning_board_diagonal){
-        [ ["","","","","",""],
-          [1 ,"","","","",""],
-          ["",1 ,"","","",""],
-          ["","",1 ,"","",""],
-          ["","","",1 ,"",""],
-          ["","","","","",""],
-          ["","","","","",""] ]
-      }
       it "returns true if a diagonal contains four consecutive pieces" do
-        winning_board_diagonal.connect_four?.should be_true
+        board.place_piece(1,1)
+        board.place_piece(2,2)
+        board.place_piece(1,2)
+        2.times {board.place_piece(2,3)}
+        board.place_piece(1,3)
+        3.times {board.place_piece(2,4)}
+        board.place_piece(1,4)
+        puts board
+        board.winning_combo?.should be_true
       end
       it "returns false if no diagonal contains four consecutive pieces" do
-        winning_board_diagonal.connect_four?.should be_false
+        board.place_piece(1,1)
+        board.winning_combo?.should be_false
       end
     end
   end
