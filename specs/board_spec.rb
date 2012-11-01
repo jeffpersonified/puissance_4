@@ -1,6 +1,7 @@
 require 'simplecov'
 SimpleCov.start
-require './lib/board.rb'
+
+require '../lib/board.rb'
 
 describe Board do
   let(:board){ Board.new }
@@ -53,10 +54,10 @@ describe Board do
           ["","","","","",""] ]
       }
       it "returns true if a row contains four consecutive pieces" do
-        pending
+        winning_board_horizontal.connect_four?.should be_true
       end
       it "returns false if no row contains four consecutive pieces" do
-        pending
+        winning_board_horizontal.connect_four?.should be_false
       end
     end
     context "checking the columns" do
@@ -70,10 +71,10 @@ describe Board do
           ["","","","","",""] ]
       }
       it "returns true if a column contains four consecutive pieces" do
-        pending
+        winning_board_vertical.connect_four?.should be_true
       end
       it "returns false if no column contains four consecutive pieces" do
-        pending
+        winning_board_vertical.connect_four?.should be_false
       end
     end
     context "checking the diagonal" do
@@ -87,10 +88,10 @@ describe Board do
           ["","","","","",""] ]
       }
       it "returns true if a diagonal contains four consecutive pieces" do
-        pending
+        winning_board_diagonal.connect_four?.should be_true
       end
       it "returns false if no diagonal contains four consecutive pieces" do
-        pending
+        winning_board_diagonal.connect_four?.should be_false
       end
     end
   end

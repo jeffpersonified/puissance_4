@@ -1,4 +1,4 @@
-require './column_full_error.rb'
+require_relative 'column_full_error'
 
 class Board
   attr_reader :cells
