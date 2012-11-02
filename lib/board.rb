@@ -35,11 +35,11 @@ class Board
 
   private
     def extract_column(num)
-      @cells[num-1]
+      @cells[num - 1]
     end
 
     def extract_row(num)
-      @cells.transpose[num-1]
+      @cells.transpose[num - 1]
     end
 
     def column_full?(num)

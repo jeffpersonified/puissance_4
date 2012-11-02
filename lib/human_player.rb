@@ -15,6 +15,7 @@ class HumanPlayer < Player
       puts "That input is not valid, please enter a number between 1 and 7."
       selection = gets.chomp.to_i
     end
+    selection
   end
 
 end
