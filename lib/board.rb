@@ -12,53 +12,56 @@ class Board
 
   def place_piece(color, placement)
     raise ColumnFullError if column_full?(placement)
-    column = column(placement)
-    column[index_first_empty(column)] = color
-    last_move(placement)
+    drop(color, placement)
+    update_last_move(placement)
     true
-  end
-
-  def to_s
-    @cells.transpose.reverse.each_with_index do |row, index|
-      row.each do |cell|
-        printf("%-3s", cell)
-      end
-      puts
-    end
   end
 
   def winning_combo?
     raise ArgumentError, "must play in order to check for winning combo" if @last_cell_updated.nil?
-    row = row(@last_cell_updated[1])
-    column = column(@last_cell_updated[0])
+    row = extract_row(@last_cell_updated[1])
+    column = extract_column(@last_cell_updated[0])
     diag1 = diagonal(@last_cell_updated[0], @last_cell_updated[1])[0]
     diag2 = diagonal(@last_cell_updated[0], @last_cell_updated[1])[1]
     groups = [row, column, diag1, diag2]
     groups.any? { |group| connect_four?(group) }
   end
 
+  def to_s
+    @cells.transpose.reverse.each_with_index do |row, index|
+      row.each do |cell|
+        printf("| %-2s", cell)
+      end
+      print "|\n"
+    end
+  end
+
   private
-    def column num
+    def extract_column(num)
       @cells[num-1]
     end
 
-    def row num
+    def extract_row(num)
       @cells.transpose[num-1]
     end
 
-    def column_full? num
-      column(num).last != ""
+    def column_full?(num)
+      extract_column(num).last != ""
     end
 
-    def index_first_empty(array)
-      array.each_with_index do |element, index|
+    def index_first_empty(placement)
+      extract_column(placement).each_with_index do |element, index|
         return index if element == ""
       end
       return @height
     end
 
-    def last_move(placement)
-      @last_cell_updated = [placement, index_first_empty(column(placement))]
+    def drop(color, placement)
+      @cells[placement-1][index_first_empty(placement)] = color
+    end
+
+    def update_last_move(placement)
+      @last_cell_updated = [placement, index_first_empty(placement)]
     end
 
     def connect_four?(group)
@@ -90,6 +93,7 @@ class Array
   end
 
 end
+
 
 #################################################
 ### LITTLE SCRIPT TO TEST QUICKLY IN THE TERMINAL

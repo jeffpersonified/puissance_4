@@ -81,7 +81,6 @@ describe Board do
         board.place_piece(1,3)
         3.times {board.place_piece(2,4)}
         board.place_piece(1,4)
-        puts board
         board.winning_combo?.should be_true
       end
       it "returns false if no diagonal contains four consecutive pieces" do
