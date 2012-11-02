@@ -8,24 +8,28 @@ describe Player do
   let(:player) { Player.new('red') }
 
   context "#initialize" do
-
-    it "creates a player with a color attribute" do
-      player.color.should eq "red"
+    it "creates a player with a name attribute" do
+      player.name.should eq "red"
     end
-
   end
 
   context "#pick" do
-
     it "receives a board and returns an integer between 1 and 7 from the human" do
-      player.pick('board').should be_between(1,7)
+      expect {player.pick}.to raise_error
     end
-
-    it "stores a board received from game" do
-      player.pick("board")
-      player.current_board.should eq("board")
-    end
-
   end
 
+  context "#valid_input?" do
+    it "returns true if valid input" do
+      player.valid_input?(4).should eq true
+    end
+
+    it "returns false if invalid input" do
+      player.valid_input?(9).should eq false
+    end
+
+    it "returns false if invalid input" do
+      player.valid_input?("zoo").should eq false
+    end
+  end
 end

@@ -11,14 +11,8 @@ describe Game do
   context 'communication with player' do
 
     it "creates two instances of the player class and assigns colors" do
-      game.red_player.color.should eq('red')
-      game.blue_player.color.should eq('blue')
-    end
-
-    it "receives a column number when asking a specific player to pick" do
-      column_pick = rand(1..7)
-      game.red_player.stub!(:pick).and_return(column_pick)
-      game.target_column.should eq(column_pick)
+      game.red_player.name.should eq('red')
+      game.blue_player.name.should eq('blue')
     end
 
   end
