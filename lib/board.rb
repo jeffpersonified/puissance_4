@@ -21,17 +21,14 @@ class Board
     raise BoardEmptyError if @latest_play.nil?
     row = extract_row(@latest_play[1])
     column = extract_column(@latest_play[0])
-    diag1 = diagonal(@latest_play[0], @latest_play[1])[0]
-    diag2 = diagonal(@latest_play[0], @latest_play[1])[1]
-    groups = [row, column, diag1, diag2]
-    groups.any? { |group| connect_four?(group) }
+    diag1 = @cells.diagonal_left_to_right(@latest_play[1]-1, @latest_play[0]-1)
+    diag2 = @cells.diagonal_right_to_left(@latest_play[1]-1, @latest_play[0]-1)
+    [row, column, diag1, diag2].any? { |group| connect_four?(group) }
   end
 
   def to_s
     @cells.transpose.reverse.each_with_index do |row, index|
-      row.each do |cell|
-        printf("| %-2s", cell)
-      end
+      row.each { |cell| printf("| %-2s", cell) }
       print "|\n"
     end
   end
@@ -65,48 +62,32 @@ class Board
     end
 
     def connect_four?(group)
-      group.join.include?("1111") || group.join.include?("2222")
-    end
-
-    def diagonal(x,y)
-      first = @cells.diagonal_left_to_right(x,y)
-      second = @cells.map(&:reverse).diagonal_right_to_left(x,y)
-      [first, second]
+      str = group.join
+      str.include?("1111") || str.include?("2222")
     end
 
 end
 
 class Array
-  def diagonal_left_to_right(x,y)
-    diagonal_array = []
-    edge_distance = [x,y].min
-    x0, y0 = x - edge_distance, y - edge_distance
-    x0 < y0 ? d = 6 - y0 : d = 7 - x0
-    (0...d).each do |i|
-      diagonal_array << self[x0+i][y0+i]
+
+  def diagonal_left_to_right(col, row)
+    min = [row, col].min
+    row_i, col_i = row - min, col - min
+
+    n_cols = self.length
+    n_rows = self.first.length
+
+    d_length = [ n_cols - col_i,
+                 n_rows - row_i ].min
+
+    (0...d_length).map do |d|
+      self[col_i + d][row_i + d]
     end
-    diagonal_array
   end
 
-  def diagonal_right_to_left(x,y)
-    self.reverse.map(&:reverse).diagonal_left_to_right(6-x,y)
+  def diagonal_right_to_left(col, row)
+    self.map(&:reverse).diagonal_left_to_right(col, self.first.length - 1 - row)
   end
 
 end
 
-
-#################################################
-### LITTLE SCRIPT TO TEST QUICKLY IN THE TERMINAL
-#################################################
-
-# board = Board.new
-# 5.times do
-#   [1,2].each { |player| board.place_piece(player,rand(0...6)) }
-# end
-# puts board
-
-# test the addition of a piece in a full column
-# 7.times do
-#   board.place_piece(1,1)
-# end
-# puts board
