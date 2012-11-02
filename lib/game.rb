@@ -1,15 +1,32 @@
+class ColumnFullError < StandardError
+  def message
+    "Sorry, the column is full"
+  end
+
+end
+
+
+class Board
+  def place_piece(id, target)
+    puts "player #{id} just placed a piece in column #{target}"
+  end
+
+  def winning_combo?
+    return [false,false,false,false,false,false,false,false,true].sample(1)[0]
+  end
+
+end
+
+
+
 class Game
   attr_reader :red_player, :blue_player, :board
 
-  def initialize
-    @red_player = Player.new('red')
-    @blue_player = Player.new('blue')
-    @turn = 1
+  def initialize(p1 = HumanPlayer.new('red'), p2 = HumanPlayer.new('blue'))
+    @red_player = p1
+    @blue_player = p2
     @board = Board.new
-  end
-
-  def target_column
-    current_player.pick(@board)
+    @turn = 0
   end
 
   def current_player
@@ -24,16 +41,13 @@ class Game
     @board.place_piece(player_id, target_column)
   end
 
-end
-
-
-
-
-class Board
-end
-
-class ColumnFullError < StandardError
-  def message
-    "Sorry, the column is full"
+  def move
+     puts "it is turn: #{@turn}"
+    @board.place_piece(self.current_player.name, self.current_player.pick(board))
+    @turn += 1
   end
+
 end
+
+
+

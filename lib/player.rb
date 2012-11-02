@@ -1,17 +1,27 @@
 class Player
-  attr_reader :color
+  attr_accessor :name
 
-  def initialize(color)
-    @color = color
+  def initialize(name = "anonymous")
+    self.name = name
   end
 
-  def pick(board) # This method needs a system to gain an actual choice from the user via the UI.
-    @current_board = board
-    rand(7) + 1
+  def pick(board)
+    raise NotImplementedError, "Implement this in a subclass!"
   end
 
-  def current_board
-    @current_board
+  def to_s
+    name
+  end
+
+  def valid_input?(input)
+    input.class == Fixnum && input < 8 && input > 0
   end
 
 end
+
+
+
+
+
+
+
