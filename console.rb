@@ -7,22 +7,18 @@ require_relative './lib/errors'
 
 
 # game = Game.new(HumanPlayer.new('Jeffrey'), HumanPlayer.new('Matt'))
-game = Game.new(AIPlayer.new(1), HumanPlayer.new(2))
+game = Game.new(HumanPlayer.new(1), AIPlayer.new(2))
 
 while true
 
   begin
-  puts game.board
-  game.move
+    puts game.board
+    game.move
   rescue Exception => e
-    puts "That column is full, pick another!"
-    p e
+    p e.message
   end
 
-
-  if game.winning_combo?
-    puts "Player #{game.current_player.name} just won! Congrats."
-    puts "This is the final board:"
+  if game.winning_combo? || game.full_board?
     puts game.board
     break
   end

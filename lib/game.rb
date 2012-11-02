@@ -5,7 +5,7 @@ class Game
     @red_player = p1
     @blue_player = p2
     @board = Board.new
-    @turn = 0
+    @turn = 1
   end
 
   def current_player
@@ -20,9 +20,20 @@ class Game
     @board.place_piece(player_id, target_column)
   end
 
+  def full_board?
+    @turn >= 42
+  end
+
   def move
     pick_col = self.current_player.pick(board)
     @board.place_piece(self.current_player.name, pick_col)
+    if winning_combo?
+      puts "Player #{current_player.name} wins!"
+      return
+    elseif full_board?
+      puts "Tied game!"
+      return
+    end
     @turn += 1
   end
 
