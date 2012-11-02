@@ -45,6 +45,12 @@ describe Board do
   describe "#winning_combo?" do
     let(:board){ Board.new }
 
+    context "checking an empty board" do
+      it "throws an error if I check for a winning combo when the board is empty" do
+        expect { board.winning_combo? }.to raise_error(BoardEmptyError)
+      end
+    end
+
     context "checking the rows" do
       it "returns true if a row contains four consecutive pieces" do
         board.place_piece(1,2)
@@ -73,7 +79,7 @@ describe Board do
       end
     end
     context "checking the diagonal" do
-      it "returns true if a diagonal contains four consecutive pieces" do
+      it "returns true if a diagonal (left to right) contains four consecutive pieces" do
         board.place_piece(1,1)
         board.place_piece(2,2)
         board.place_piece(1,2)
@@ -83,6 +89,16 @@ describe Board do
         board.place_piece(1,4)
         board.winning_combo?.should be_true
       end
+      it "returns true if a diagonal (right to left) contains four consecutive pieces" do
+         board.place_piece(1,1)
+         3.times{ board.place_piece(2,1) }
+         board.place_piece(1,2)
+         2.times{ board.place_piece(2,2) }
+         board.place_piece(1,3)
+         board.place_piece(2,3)
+         board.place_piece(2,4)
+         board.winning_combo?.should be_true
+       end
       it "returns false if no diagonal contains four consecutive pieces" do
         board.place_piece(1,1)
         board.winning_combo?.should be_false

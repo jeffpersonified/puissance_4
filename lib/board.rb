@@ -1,4 +1,4 @@
-require_relative 'column_full_error'
+require_relative 'errors'
 
 class Board
   attr_reader :cells
@@ -7,22 +7,22 @@ class Board
     @width = 7
     @height = 6
     @cells = Array.new(@width) { Array.new(@height, "") }
-    @last_cell_updated = nil
+    @latest_play = nil
   end
 
-  def place_piece(color, placement)
+  def place_piece(player_id, placement)
     raise ColumnFullError if column_full?(placement)
-    drop(color, placement)
-    update_last_move(placement)
+    drop(player_id, placement)
+    update_latest_play(placement)
     true
   end
 
   def winning_combo?
-    raise ArgumentError, "must play in order to check for winning combo" if @last_cell_updated.nil?
-    row = extract_row(@last_cell_updated[1])
-    column = extract_column(@last_cell_updated[0])
-    diag1 = diagonal(@last_cell_updated[0], @last_cell_updated[1])[0]
-    diag2 = diagonal(@last_cell_updated[0], @last_cell_updated[1])[1]
+    raise BoardEmptyError if @latest_play.nil?
+    row = extract_row(@latest_play[1])
+    column = extract_column(@latest_play[0])
+    diag1 = diagonal(@latest_play[0], @latest_play[1])[0]
+    diag2 = diagonal(@latest_play[0], @latest_play[1])[1]
     groups = [row, column, diag1, diag2]
     groups.any? { |group| connect_four?(group) }
   end
@@ -56,12 +56,12 @@ class Board
       return @height
     end
 
-    def drop(color, placement)
-      @cells[placement-1][index_first_empty(placement)] = color
+    def drop(player_id, placement)
+      @cells[placement-1][index_first_empty(placement)] = player_id
     end
 
-    def update_last_move(placement)
-      @last_cell_updated = [placement, index_first_empty(placement)]
+    def update_latest_play(placement)
+      @latest_play = [placement, index_first_empty(placement)]
     end
 
     def connect_four?(group)
