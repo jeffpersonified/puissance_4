@@ -30,7 +30,7 @@ class Game
     if winning_combo?
       puts "Player #{current_player.name} wins!"
       return
-    elseif full_board?
+    elsif full_board?
       puts "Tied game!"
       return
     end
