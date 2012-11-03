@@ -1,3 +1,5 @@
+require 'tweetstream'
+
 require_relative 'board_conversion'
 require_relative 'game'
 require_relative 'player'
