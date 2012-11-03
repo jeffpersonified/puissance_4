@@ -73,3 +73,66 @@ class TwitterInterface
 end
 
 TwitterInterface.new()
+#######################################################
+
+require 'tweetstream'
+require 'twitter'
+#
+Twitter.configure do |config|
+  config.consumer_key = 'sshDSUlCHSqhL8p6FFbww'
+  config.consumer_secret = '2GCoPMLc6aA0flYbEtRGCQT5LhxwBKFKA3g6y0xo4'
+  config.oauth_token = '921596012-eflaRGrBnrkq65CyfMW6JQL5yytv61Xror2GDH5V'
+  config.oauth_token_secret = 'i7OaJmL1bMAUdRaDllVIHT1tlhPoBMm66SaIqlT3s'
+end
+
+TweetStream.configure do |config|
+  config.consumer_key       = 'sshDSUlCHSqhL8p6FFbww'
+  config.consumer_secret    = '2GCoPMLc6aA0flYbEtRGCQT5LhxwBKFKA3g6y0xo4'
+  config.oauth_token        = '921596012-eflaRGrBnrkq65CyfMW6JQL5yytv61Xror2GDH5V'
+  config.oauth_token_secret = 'i7OaJmL1bMAUdRaDllVIHT1tlhPoBMm66SaIqlT3s'
+  config.auth_method        = :oauth
+end
+
+def listen_for_challenge
+  TweetStream::Client.new.track('Who wants to get demolished? #dbc_c4') do |status|
+    tweet = "#{status.text}"
+    @opponent_handle = "#{status.user.screen_name}"
+    @game_hash = tweet[/#(\w\w\d|\w\d\w|\d\w\w)/]
+    break if tweet != ''
+  end
+end
+
+def game_on
+  response = "@#{@opponent_handle} Game on! #dbc_c4 #{@game_hash}"
+  Twitter.update("#{response}")
+end
+
+def send_move(board)
+  Twitter.update("#{@opponent_handle} #{board.board_to_string} #dbc_c4 #{@game_hash}")
+end
+
+def listen_for_move
+  TweetStream::Client.new.track("#dbc_c4 #{@game_hash}") do |status|
+    tweet = "#{status.text}"
+    @new_board = tweet[/\|.{7}\|.{7}\|.{7}\|.{7}\|.{7}\|.{7}\|/]
+    return "win_claimed" if tweet.include "I win!"# match "I won"
+    return "tie_claimed" if tweet.include "Draw game."# match "tie"
+    break if tweet != ''
+  end
+end
+
+
+# TweetStream::Client.new.track('@puissance_4') do |status|
+#   tweet = "#{status.text}"
+#   name = "#{status.user.screen_name}"
+#   puts "#{name}: #{tweet}"
+# end
+
+# TweetStream::Client.new.track('@justinbieber') do |tweet|
+#   p tweet
+# end
+
+
+listen_for_challenge
+game_on
+send_move
