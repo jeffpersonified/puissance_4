@@ -16,10 +16,7 @@ describe HumanPlayer do
 
   context "#pick" do
     it "receives a board and returns an integer between 1 and 7 from the human" do
-      rand_num = rand(1..7)
-      player.stub(:pick).and_return(rand_num)
-      selection = player.pick("board")
-      selection.should be_between(1,7)
+      player.pick("board").should be_between(1,7)
     end
   end
 

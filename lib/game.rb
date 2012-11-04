@@ -25,7 +25,7 @@ class Game
   end
 
   def move
-    pick_col = self.current_player.pick(board)
+    pick_col = self.current_player.pick(@board)
     @board.place_piece(self.current_player.name, pick_col)
     @turn += 1
     if winning_combo?
