@@ -11,8 +11,8 @@ describe Game do
   context 'communication with player' do
 
     it "creates two instances of the player class and assigns colors" do
-      game.red_player.name.should eq('red')
-      game.blue_player.name.should eq('blue')
+      game.p1.symbol.should eq('O')
+      game.p2.symbol.should eq('X')
     end
 
   end

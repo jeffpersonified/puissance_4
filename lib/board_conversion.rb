@@ -1,4 +1,5 @@
 module BoardConversion
+# class Array
 
   def board_to_string(board_array)
     str = '|'

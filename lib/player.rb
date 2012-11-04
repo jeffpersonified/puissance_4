@@ -1,8 +1,8 @@
 class Player
-  attr_accessor :name
+  attr_accessor :symbol
 
-  def initialize(name = "anonymous")
-    self.name = name
+  def initialize(symbol)
+    @symbol = symbol
   end
 
   def pick(board)
@@ -10,7 +10,7 @@ class Player
   end
 
   def to_s
-    name
+    symbol
   end
 
   def valid_input?(input)

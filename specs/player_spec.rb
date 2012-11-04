@@ -5,11 +5,11 @@ require_relative '../lib/player.rb'
 
 describe Player do
 
-  let(:player) { Player.new('red') }
+  let(:player) { Player.new('X') }
 
   context "#initialize" do
-    it "creates a player with a name attribute" do
-      player.name.should eq "red"
+    it "creates a player with a symbol attribute" do
+      player.symbol.should eq "X"
     end
   end
 

@@ -6,11 +6,11 @@ require_relative '../lib/ai_player.rb'
 
 describe AIPlayer do
 
-  let(:player) { AIPlayer.new('red') }
+  let(:player) { AIPlayer.new('O') }
 
   context "#initialize" do
-    it "creates a player with a name attribute" do
-      player.name.should eq "red"
+    it "creates a player with a symbol attribute" do
+      player.symbol.should eq "O"
     end
   end
 

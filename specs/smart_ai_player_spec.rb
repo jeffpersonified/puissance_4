@@ -7,8 +7,8 @@ describe SmartAIPlayer do
   let(:smart_ai_player) { SmartAIPlayer.new }
 
   context "#initialize" do
-    it "creates a player with a name attribute" do
-      smart_ai_player.name.should eq "anonymous"
+    it "creates a player with a symbol attribute" do
+      smart_ai_player.symbol.should eq "anonymous"
     end
   end
 

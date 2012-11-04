@@ -10,7 +10,6 @@ describe TwitterPlayer do
     it "returns a integer between 1 and 7" do
       # this test isn't working and I'm not sure how to get it to work right now
       # matt
-
       player.pick("board").should be_between(1,7)
     end
   end

@@ -5,9 +5,7 @@ require_relative './lib/ai_player'
 require_relative './lib/board'
 require_relative './lib/errors'
 
-
-# game = Game.new(HumanPlayer.new('Jeffrey'), HumanPlayer.new('Matt'))
-game = Game.new(HumanPlayer.new(1), AIPlayer.new(2))
+game = Game.new(HumanPlayer.new('O'), AIPlayer.new('X'))
 
 while true
 

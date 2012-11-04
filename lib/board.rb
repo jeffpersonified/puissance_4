@@ -63,7 +63,7 @@ class Board
 
     def connect_four?(group)
       str = group.join
-      str.include?("1111") || str.include?("2222")
+      str.include?("XXXX") || str.include?("OOOO")
     end
 
 end

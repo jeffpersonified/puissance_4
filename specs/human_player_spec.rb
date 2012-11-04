@@ -6,11 +6,11 @@ require_relative '../lib/human_player.rb'
 
 describe HumanPlayer do
 
-  let(:player) { HumanPlayer.new('red') }
+  let(:player) { HumanPlayer.new('X') }
 
   context "#initialize" do
-    it "creates a player with a name attribute" do
-      player.name.should eq "red"
+    it "creates a player with a symbol attribute" do
+      player.symbol.should eq "X"
     end
   end
 
