@@ -1,23 +1,53 @@
+require 'pry'
 require_relative './player'
+require_relative './board'
+
 class SmartAIPlayer < Player
 
   def pick(board)
-    return 1
-    check_horizontal_win(board)
+    p column_to_win(board)
+
   end
 
-  def check_horizontal_win(board)
-    board.cells.each_index do |y|
-      1.upto(4) do |x|
-        # Check if there are three of our marker in a row
-        t = board.cells[y].slice(x, x+2).uniq
-        if t.length == 1 and t[0] == self.name
 
-
-        end
+  def column_to_win(board)
+    board.cells.each_with_index do |row, index|
+      # add piece
+      height = board.index_first_empty(index + 1)
+      board.place_piece(self.name, index + 1)
+      if board.winning_combo?
+        return index + 1
       end
+      # remove piece added
+      board.cells[index][height] = ""
     end
   end
 
+  # def column_to_defend
+  #   board.cells.each_with_index do |row, index|
+  #     # add piece
+  #     height = board.index_first_empty(index + 1)
+  #     board.place_piece(self.name, index + 1)
+  #     if board.winning_combo?
+  #       return index + 1
+  #     end
+  #     # remove piece added
+  #     board.cells[index][height] = ""
+  #   end
+  #
+  # end
+
 
 end
+
+# board = Board.new
+# board.place_piece(1,5)
+# board.place_piece(1,5)
+# board.place_piece(1,5)
+#
+#
+# player = SmartAIPlayer.new(1)
+# player.column_to_win(board)
+#
+#
+# player.pick(board)

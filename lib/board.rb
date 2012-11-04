@@ -33,7 +33,7 @@ class Board
     end
   end
 
-  private
+  # private
     def extract_column(num)
       @cells[num - 1]
     end
