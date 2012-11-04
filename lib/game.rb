@@ -25,6 +25,7 @@ class Game
   end
 
   def move
+    puts self.current_player
     pick_col = self.current_player.pick(board)
     @board.place_piece(self.current_player.name, pick_col)
     @turn += 1

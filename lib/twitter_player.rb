@@ -21,7 +21,7 @@ class TwitterPlayer < Player
 
   def self.start_up(name, interface)
     self.new(name)
-    interface(interface)
+    interface=(interface)
   end
 
   def interface=(interface)
@@ -29,6 +29,7 @@ class TwitterPlayer < Player
   end
 
   def pick(board)
+    puts "made it to twitter player; board is #{board}"
     @interface.request(board)
   end
 
