@@ -15,15 +15,19 @@ require_relative 'errors'
 class Interface
   include BoardConversion
 
-  def initialize(player1, player2)
-    # game = Game.new(HumanPlayer.new('Jeffrey'), HumanPlayer.new('Matt'))
-    @game = Game.new(player1, player2)
-  end
+  attr_accessor :game
 
   def self.find_twitter_game # We need to discuss the order because a facory method can't assign instance variables until after the instance exists.
-    temp_self = self.new(HumanPlayer.new(2), TwitterPlayer.start_up(1,self))
+    temp_self = self.new
+    temp_self.game = Game.new
+    player1 = HumanPlayer.new("X")
+    player2 = TwitterPlayer.new("O",temp_self)
+    puts player2.inspect
+    temp_self.game.first_player = player1
+    temp_self.game.second_player = player2
     temp_self.listen_for_challenge
     temp_self.game_on
+    puts temp_self.inspect
     outcome = temp_self.run_game
     end_game(outcome)
     # temp_self.reconcile_outcome
@@ -40,7 +44,7 @@ class Interface
   def request(board)
     send_move(board)
     @claimed_outcome = listen_for_move
-    BoardConversion::string_to_board(@new_board)
+    string_to_board(@new_board)
   end
 
   def listen_for_challenge
@@ -83,7 +87,7 @@ class Interface
   end
 
   def send_move(board)
-    Twitter.update("#{@opponent_handle} #{board.board_to_string} #dbc_c4 #{@game_hash}")
+    Twitter.update("#{@opponent_handle} #{board_to_string(board.to_s)} #dbc_c4 #{@game_hash}")
   end
 
   def end_game

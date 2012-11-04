@@ -1,15 +1,16 @@
 class Game
-  attr_reader :red_player, :blue_player, :board
+  attr_accessor :first_player, :second_player
+  attr_reader :board
 
-  def initialize(p1 = HumanPlayer.new('red'), p2 = HumanPlayer.new('blue'))
-    @red_player = p1
-    @blue_player = p2
+  def initialize
+    @first_player
+    @second_player
     @board = Board.new
     @turn = 1
   end
 
   def current_player
-    @turn % 2 != 0 ? @red_player : @blue_player
+    @turn % 2 != 0 ? @first_player : @second_player
   end
 
   def winning_combo?
@@ -27,7 +28,7 @@ class Game
   def move
     puts self.current_player
     pick_col = self.current_player.pick(board)
-    @board.place_piece(self.current_player.name, pick_col)
+    @board.place_piece(self.current_player.number, pick_col)
     @turn += 1
     if winning_combo?
       return ["win", @board]

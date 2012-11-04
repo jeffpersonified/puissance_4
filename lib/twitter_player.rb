@@ -1,6 +1,7 @@
 require_relative './player'
 
 class TwitterPlayer < Player
+  attr_accessor :interface
   # attr_accessor :name
   #
   # def initialize(name = "anonymous")
@@ -19,15 +20,6 @@ class TwitterPlayer < Player
   #   input.class == Fixnum && input < 8 && input > 0
   # end
 
-  def self.start_up(name, interface)
-    self.new(name)
-    interface=(interface)
-  end
-
-  def interface=(interface)
-    @interface = interface
-  end
-
   def pick(board)
     puts "made it to twitter player; board is #{board}"
     @interface.request(board)
@@ -35,7 +27,15 @@ class TwitterPlayer < Player
 
 end
 
-
+########## the above is the player class
+  # def self.start_up(name, interface)
+  #   self.new(name)
+  #   interface = interface
+  # end
+  #
+  # def interface=(interface)
+  #   self.interface = interface
+  # end
 
 
 
