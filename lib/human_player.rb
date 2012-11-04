@@ -9,7 +9,7 @@ class HumanPlayer < Player
   end
 
   def pick(board)
-    puts "Player #{self.name}!  It's your turn.  Pick a number 1..7"
+    puts board
     selection = gets.chomp.to_i
     while !valid_input?(selection)
       puts "That input is not valid, please enter a number between 1 and 7."
