@@ -37,10 +37,14 @@ class SmartAIPlayer < Player
     false
   end
 
+  def other_player
+    SmartAIPlayer.name == 1 ? 2 : 1
+  end
+
   def column_to_defend(board)
     board.cells.each_index do |index|
       height = board.index_first_empty(index + 1) # add piece
-      board.place_piece(2, index + 1)
+      board.place_piece(other_player, index + 1)
       # the '2' needs to be the opponent's name
 
       if board.winning_combo?
