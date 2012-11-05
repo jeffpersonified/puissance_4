@@ -1,7 +1,7 @@
 require_relative 'errors'
 
 class Board
-  attr_reader :cells
+  attr_reader :cells, :width, :height
 
   def initialize
     @width = 7
