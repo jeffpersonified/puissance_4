@@ -25,15 +25,20 @@ class Game
   end
 
   def move
+    p @board
+    p self.current_player
+    p self.current_player.class
     pick_col = self.current_player.pick(@board)
+    p pick_col
     @board.place_piece(self.current_player.symbol, pick_col)
+    p @board
     @turn += 1
     if winning_combo?
-      return ["win", @board]
+      return ["win", @board.cells]
     elsif full_board?
-      return ["tie", @board]
+      return ["tie", @board.cells]
     else
-      return ["continue",nil]
+      return ["continue"]
     end
   end
 
