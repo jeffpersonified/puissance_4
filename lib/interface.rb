@@ -13,12 +13,42 @@ require_relative 'errors'
 class Interface
   include BoardConversion
 
-  attr_accessor :board, :game
+  attr_accessor :game
+
 
   def initialize
     @game = Game.new(AIPlayer.new('O'), TwitterPlayer.new('X', self))
-    @board = @game.board.cells
-    self.start
+  end
+
+
+  def self.find_game_human
+    interface = Interface.new
+    interface.game = Game.new(HumanPlayer.new('O'), TwitterPlayer.new('X', interface))
+    interface.start_found_game
+  end
+
+  def self.find_game
+    interface = Interface.new
+    interface.game = Game.new(AIPlayer.new('O'), TwitterPlayer.new('X', interface))
+    interface.start_found_game
+  end
+
+  def self.initiate_game
+    interface = Interface.new
+    interface.game = Game.new(TwitterPlayer.new('X', interface), AIPlayer.new('O'))
+    interface.start_initiated_game
+  end
+
+  def start_initiated_game
+    tweet_challenge
+    listen_for_game_on
+    run_game
+  end
+
+  def start_found_game
+    listen_for_challenge
+    game_on
+    run_game
   end
 
   Twitter.configure do |config|
@@ -36,11 +66,6 @@ class Interface
     config.auth_method        = :oauth
   end
 
-  def start
-    listen_for_challenge
-    game_on
-    run_game
-  end
 
   def run_game
     move_outcome = @game.move
@@ -71,16 +96,18 @@ class Interface
   end
 
   def end_game(move_outcome)
+    puts "hit end game"
+    puts "move outcome is #{move_outcome[0]}"
     if move_outcome[0] == "tie"
-      Twitter.update("Draw game. Play again?", BoardConversion::board_to_string(move_outcome[1]))
+      Twitter.update("Draw game. Play again? #{board_to_string(move_outcome[1])} #dbc_c5 #{@game_hash}")
     elsif move_outcome[0] == "win"
-      Twitter.update("I win! Good game.", BoardConversion::board_to_string(move_outcome[1]))
+      Twitter.update("I win! Good game. #{board_to_string(move_outcome[1])} #dbc_c5 #{@game_hash}")
     end
   end
 
   def request(board)
     send_move(board)
-    listen_for_move
+    claims = listen_for_move
     string_to_board(@new_board)
   end
 
