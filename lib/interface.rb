@@ -17,7 +17,8 @@ class Interface
 
 
   def initialize
-    @game = Game.new(AIPlayer.new('O'), TwitterPlayer.new('X', self))
+    @game
+    # @game = Game.new(AIPlayer.new('O'), TwitterPlayer.new('X', self))
   end
 
 
@@ -33,17 +34,17 @@ class Interface
     interface.start_found_game
   end
 
-  def self.initiate_game
-    interface = Interface.new
-    interface.game = Game.new(TwitterPlayer.new('X', interface), AIPlayer.new('O'))
-    interface.start_initiated_game
-  end
+  # def self.initiate_game
+  #   interface = Interface.new
+  #   interface.game = Game.new(TwitterPlayer.new('X', interface), AIPlayer.new('O'))
+  #   interface.start_initiated_game
+  # end
 
-  def start_initiated_game
-    tweet_challenge
-    listen_for_game_on
-    run_game
-  end
+  # def start_initiated_game
+  #   tweet_challenge
+  #   listen_for_game_on
+  #   run_game
+  # end
 
   def start_found_game
     listen_for_challenge
@@ -60,7 +61,7 @@ class Interface
 
   TweetStream.configure do |config|
     config.consumer_key       = CONSUMER_KEY
-    config.consumer_secret    = CONSUMER_SECRET
+    config.consumer_secret    = CONSUMER_KEY
     config.oauth_token        = OAUTH_TOKEN
     config.oauth_token_secret = OAUTH_TOKEN_SECRET
     config.auth_method        = :oauth
@@ -68,6 +69,7 @@ class Interface
 
 
   def run_game
+    puts "running game now"
     move_outcome = @game.move
     while move_outcome[0] == "continue"
       puts "move_outcome: #{move_outcome[0]}"
@@ -77,31 +79,36 @@ class Interface
   end
 
   def listen_for_challenge
-    TweetStream::Client.new.track('Who wants to get demolished? #dbc_c5') do |status|
+puts "listening for challenge"
+    TweetStream::Client.new.track('Who wants to get demolished? #dbc_c4') do |status|
       tweet = "#{status.text}"
+puts "tweet found"
       @opponent_handle = "@#{status.user.screen_name}"
       @game_hash = tweet[/#(\w\w\d|\w\d\w|\d\w\w)/]
-      puts @game_hash
+puts @game_hash
       break if tweet != ''
     end
+puts "done listening for challenge"
   end
 
   def game_on
-    response = "#{@opponent_handle} Game on! #dbc_c5 #{@game_hash}"
+puts "game on"
+    response = "#{@opponent_handle} Game on! #dbc_c4 #{@game_hash}"
     Twitter.update("#{response}")
+puts "finished game on"
   end
 
   def send_move(board)
-    Twitter.update("#{@opponent_handle} #{board_to_string(board)} #dbc_c5 #{@game_hash}")
+    Twitter.update("#{@opponent_handle} #{board_to_string(board)} #dbc_c4 #{@game_hash}")
   end
 
   def end_game(move_outcome)
     puts "hit end game"
     puts "move outcome is #{move_outcome[0]}"
     if move_outcome[0] == "tie"
-      Twitter.update("Draw game. Play again? #{board_to_string(move_outcome[1])} #dbc_c5 #{@game_hash}")
+      Twitter.update("Draw game. Play again? #{board_to_string(move_outcome[1])} #dbc_c4 #{@game_hash}")
     elsif move_outcome[0] == "win"
-      Twitter.update("I win! Good game. #{board_to_string(move_outcome[1])} #dbc_c5 #{@game_hash}")
+      Twitter.update("I win! Good game. #{board_to_string(move_outcome[1])} #dbc_c4 #{@game_hash}")
     end
   end
 
@@ -112,7 +119,7 @@ class Interface
   end
 
   def listen_for_move
-    TweetStream::Client.new.track("#dbc_c5 #{@game_hash}") do |status|
+    TweetStream::Client.new.track("#dbc_c4 #{@game_hash}") do |status|
       tweet = "#{status.text}"
       @new_board = tweet[/\|.{7}\|.{7}\|.{7}\|.{7}\|.{7}\|.{7}\|/]
       return "win_claimed" if tweet.include?("I win!")# match "I won"
@@ -120,5 +127,4 @@ class Interface
       return
     end
   end
-
 end
